@@ -12,7 +12,7 @@ app.use(cors())
 const pool = require('./lib/db');
 
 app.get('/works', function (req, response) {
-  pool.query('SELECT * FROM works', function (err, res) {
+  pool.query('SELECT * FROM works LIMIT 50', function (err, res) {
     if (err) { return console.error('error running query', err); }
     response.send(JSON.stringify(res.rows))
   });
