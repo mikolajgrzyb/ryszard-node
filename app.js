@@ -1,7 +1,11 @@
-require('dotenv').config()
-const express = require('express')
-const cors = require('cors')
-const app = express()
+const dotenv = require('dotenv');
+const express = require('express');
+const cors = require('cors');
+const { WorksController } = require('./app/controllers/index');
+
+dotenv.config();
+
+const app = express();
 
 var corsOptions = {
   origin: 'http://localhost:3001'
@@ -9,15 +13,7 @@ var corsOptions = {
 
 app.use(cors())
 
-const pool = require('./lib/db');
-
-app.get('/works', function (req, response) {
-  pool.query('SELECT * FROM works LIMIT 50', function (err, res) {
-    if (err) { return console.error('error running query', err); }
-    response.send(JSON.stringify(res.rows))
-  });
-  
-})
+app.get('/works', WorksController.index)
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
